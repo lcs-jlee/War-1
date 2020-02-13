@@ -233,22 +233,22 @@ struct beggarYourNeighbour {
     var playerMiddle: [Card] = []
     var computerMiddle: [Card] = []
     
-   // Append random cards to both players
+    // Append random cards to both players
     var player: [Card] = []
     var computer: [Card] = []
-
+    
     // Empty deck of cards
     var deck: [Card] = []
     mutating func generateDeck(deck: [Card]) -> [Card] {
         var fullDeck = deck
-
+        
         // Populating the deck
         for i in 1...4 {
             for j in 2...14 {
                 fullDeck.append(Card(suit: Suit(rawValue: i)!, value: Value(rawValue: j)!))
             }
         }
-
+        
         return fullDeck
     }
     
@@ -295,12 +295,21 @@ struct beggarYourNeighbour {
     //check
     mutating func check() {
         
-        if playerMiddle[0].value.rawValue == 11 {
+        if playerMiddle[0].value.rawValue >= 11 {
+            repeating(theCard: playerMiddle[0])
             computerAddToMiddle()
         }
         
+        
         if computerMiddle[0].value.rawValue == 11 {
-            playerAddToMiddle()
+            for _ in 0...1 {
+                playerAddToMiddle()
+                
+            }
+            if playerMiddle[0].value.rawValue != 11 || playerMiddle[0].value.rawValue != 12 || playerMiddle[0].value.rawValue != 13 || playerMiddle[0].value.rawValue != 14 {
+                computer.append(contentsOf: computerMiddle)
+                computer.append(contentsOf: playerMiddle)
+            }
             
         }
     }
@@ -311,9 +320,22 @@ struct beggarYourNeighbour {
         computerAddToMiddle()
         
     }
-
     
-
+    mutating func repeatComputer (thePlayerCard: Card) {
+        for _ in 0...thePlayerCard.value.rawValue - 10 {
+            check()
+            computerAddToMiddle()
+            
+        }
+    }
+    
+    mutating func repeatComputer (thePlayerCard: Card) {
+        for _ in 0...thePlayerCard.value.rawValue - 10 {
+            check()
+            computerAddToMiddle()
+            
+        }
+    }
     
 }
 
