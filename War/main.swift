@@ -233,12 +233,12 @@ struct beggarYourNeighbour {
     var middle: [Card] = []
     
    // Append random cards to both players
-    var player1: [Hand] = []
-    var player2: [Hand] = []
+    var player: [Card] = []
+    var computer: [Card] = []
 
     // Empty deck of cards
     var deck: [Card] = []
-    func generateDeck(deck: [Card]) -> [Card] {
+    mutating func generateDeck(deck: [Card]) -> [Card] {
         var fullDeck = deck
 
         // Populating the deck
@@ -252,16 +252,14 @@ struct beggarYourNeighbour {
     }
     
     // Deal cards to both of the players' hands
-    func dealCards() {
-        var deck: [Card] = generateDeck(deck: [])
-        
+    mutating func dealCards() {
         while deck.count > 0 {
             
             // Get a random value between 0 and the end of the deck array
             var randomCardPosition = Int.random(in: 0...deck.count - 1)
             
             // Add to the player's hand
-            player1.append(deck[randomCardPosition])
+            player.append(deck[randomCardPosition])
             
             // Remove the card from the deck
             deck.remove(at: randomCardPosition)
@@ -270,13 +268,19 @@ struct beggarYourNeighbour {
             randomCardPosition = Int.random(in: 0...deck.count - 1)
             
             //adds to the computers hand
-            player2.append(deck[randomCardPosition])
+            computer.append(deck[randomCardPosition])
             
             // Remove the card from the deck
             deck.remove(at: randomCardPosition)
             
             print(randomCardPosition)
         }
+        
+        
+    }
+    
+    //check
+    mutating func check() {
         
     }
 
