@@ -230,7 +230,8 @@ struct Card {
 struct beggarYourNeighbour {
     
     // Creates an empty array for the middle piles
-    var middle: [Card] = []
+    var playerMiddle: [Card] = []
+    var computerMiddle: [Card] = []
     
    // Append random cards to both players
     var player: [Card] = []
@@ -279,8 +280,35 @@ struct beggarYourNeighbour {
         
     }
     
+    mutating func playerAddToMiddle() {
+        playerMiddle.append(player[0])
+        player.remove(at: 0)
+        check()
+    }
+    
+    mutating func computerAddToMiddle() {
+        computerMiddle.append(computer[0])
+        computer.remove(at: 0)
+        check()
+    }
+    
     //check
     mutating func check() {
+        
+        if playerMiddle[0].value.rawValue == 11 {
+            computerAddToMiddle()
+        }
+        
+        if computerMiddle[0].value.rawValue == 11 {
+            playerAddToMiddle()
+            
+        }
+    }
+    
+    //play the game
+    mutating func playTheGame() {
+        playerAddToMiddle()
+        computerAddToMiddle()
         
     }
 
