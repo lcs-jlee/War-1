@@ -106,49 +106,70 @@ struct beggarYourNeighbour {
         } else{
             computer.remove(at: 0)
         }
-        
-        //check()
+
     }
-    
-    
-    
 
     mutating func check(theCard: Card, playerTurn: Bool) {
         if theCard.value.rawValue >= 11 {
             //repeat
             if playerTurn {
+                isPlayerTurn.toggle()
                 repeatComputer(thePlayerCard: theCard)
+            } else {
+                isPlayerTurn.toggle()
+                repeatPlayer(theComputerCard: theCard)
             }
         } else{
-            //opposition's turn normally
+            isPlayerTurn.toggle()
+            playTheGame()
         }
         
     }
     
-
-    mutating func playTheGame() {
-        
-        
-    }
     
     mutating func repeatComputer (thePlayerCard: Card) {
+        var repeatedTimes = 1
         for _ in 0...thePlayerCard.value.rawValue - 10 {
-            middle.insert(computer[0], at: 0)
-            computer.remove(at: 0)
+            addToMiddle(theCard: computer[0], playerTurn: isPlayerTurn)
             check(theCard: middle[0], playerTurn: isPlayerTurn)
-            
-            
-            
+            repeatedTimes += 1
+        }
+        if repeatedTimes == thePlayerCard.value.rawValue - 10 {
+            player.append(contentsOf: middle)
+            middle.removeAll()
         }
     }
     
     mutating func repeatPlayer (theComputerCard: Card) {
+        var repeatedTimes = 1
         for _ in 0...theComputerCard.value.rawValue - 10 {
             //check()
-            addToMiddle(theCard: theComputerCard, playerTurn: isPlayerTurn)
-            
+            addToMiddle(theCard: player[0], playerTurn: isPlayerTurn)
+            check(theCard: middle[0], playerTurn: isPlayerTurn)
+            repeatedTimes += 1
+        }
+        if repeatedTimes == theComputerCard.value.rawValue - 10 {
+            computer.append(contentsOf: middle)
         }
     }
     
+    mutating func playTheGame() {
+        if isPlayerTurn {
+            addToMiddle(theCard: player[0], playerTurn: isPlayerTurn)
+            check(theCard: middle[0], playerTurn: isPlayerTurn)
+        } else {
+            addToMiddle(theCard: computer[0], playerTurn: isPlayerTurn)
+            check(theCard: middle[0], playerTurn: isPlayerTurn)
+        }
+        
+    }
+    
+    mutating func start() {
+        
+    }
+    
+    
+    
 }
+
 
