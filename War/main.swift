@@ -28,6 +28,7 @@ struct Hand {
         
     }
 }
+
 //define what a card has (Suit and value)
 struct Card {
     var suit: Suit
@@ -104,8 +105,11 @@ struct beggarYourNeighbour {
         } else {
             
             print("Computer has \(computer.count) cards")
+            print("-----------------------------------------")
             print("Player has \(player.count) cards")
+            print("-----------------------------------------")
             print("Middle has \(middle.count) cards")
+            print("-----------------------------------------")
             middle.insert(theCard, at: 0)
             
             if playerTurn{
@@ -137,9 +141,13 @@ struct beggarYourNeighbour {
             if theCard.value.rawValue >= 11 {
                 //repeat
                 if playerTurn {
+                    print("Computer's Showdown")
+                    print("-----------------------------------------")
                     isPlayerTurn.toggle()
                     repeatComputer(thePlayerCard: theCard)
                 } else {
+                    print("Player's Showdown")
+                    print("-----------------------------------------")
                     isPlayerTurn.toggle()
                     repeatPlayer(theComputerCard: theCard)
                 }
@@ -164,7 +172,7 @@ struct beggarYourNeighbour {
             }
         }
         //Player won the showdown so he gets the cards from the middle
-        if repeatedTimes == thePlayerCard.value.rawValue - 10 {
+        if repeatedTimes == thePlayerCard.value.rawValue - 10 && hasGameEnded == false{
             player.append(contentsOf: middle)
             middle.removeAll()
             addToMiddle(theCard: computer[0], playerTurn: isPlayerTurn)
@@ -186,7 +194,7 @@ struct beggarYourNeighbour {
             
         }
         //Computer won the showdown so it gets the cards from the middle
-        if repeatedTimes == theComputerCard.value.rawValue - 10 {
+        if repeatedTimes == theComputerCard.value.rawValue - 10 && hasGameEnded == false {
             computer.append(contentsOf: middle)
             middle.removeAll()
             addToMiddle(theCard: player[0], playerTurn: isPlayerTurn)
@@ -216,6 +224,7 @@ struct beggarYourNeighbour {
             } else {
                 addToMiddle(theCard: computer[0], playerTurn: isPlayerTurn)
                 check(theCard: middle[0], playerTurn: isPlayerTurn, isRepeating: false)
+                
                 
             }
         }
