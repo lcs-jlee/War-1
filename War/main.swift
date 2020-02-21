@@ -175,6 +175,7 @@ struct beggarYourNeighbour {
         if repeatedTimes == thePlayerCard.value.rawValue - 10 {
             player.append(contentsOf: middle)
             middle.removeAll()
+            addToMiddle(theCard: computer[0], playerTurn: isPlayerTurn)
             isPlayerTurn.toggle()
         }
     }
@@ -194,6 +195,7 @@ struct beggarYourNeighbour {
         if repeatedTimes == theComputerCard.value.rawValue - 10 {
             computer.append(contentsOf: middle)
             middle.removeAll()
+            addToMiddle(theCard: player[0], playerTurn: isPlayerTurn)
             isPlayerTurn.toggle()
         }
     }
