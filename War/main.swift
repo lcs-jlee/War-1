@@ -56,7 +56,7 @@ struct beggarYourNeighbour {
     var player: [Card] = []
     var computer: [Card] = []
     var middle: [Card] = []
-    var isGameOver = true
+    var hasGameEnded = true
     
     mutating func generateDeck() {
         
@@ -67,8 +67,6 @@ struct beggarYourNeighbour {
                 deck.append(Card(suit: Suit(rawValue: i)!, value: Value(rawValue: j)!))
             }
         }
-        
-        
     }
     
     // Deal cards to both of the players' hands
@@ -93,32 +91,29 @@ struct beggarYourNeighbour {
             
             // Remove the card from the deck
             deck.remove(at: randomCardPosition)
-            
-            //print(randomCardPosition)
         }
-        
-        
     }
     
+    //Place the cards into the middle to have own "pod"
     mutating func addToMiddle(theCard: Card, playerTurn: Bool) {
         if player.count < 1 {
             whoIsWinner(winner: "Computer")
         } else if computer.count < 1 {
             whoIsWinner(winner: "Player")
-        }else {
+            
+        } else {
+            
             print("Computer has \(computer.count) cards")
             print("Player has \(player.count) cards")
             print("Middle has \(middle.count) cards")
             middle.insert(theCard, at: 0)
             
             if playerTurn{
-                
                     player.remove(at: 0)
                     print("Player put \(theCard.suit) \(theCard.value)")
                     print("========================================================")
                 
-                
-            } else{
+            } else {
                 
                     computer.remove(at: 0)
                     print("Computer put \(theCard.suit) \(theCard.value)")
@@ -126,12 +121,10 @@ struct beggarYourNeighbour {
                 
                 
             }
-            
         }
-        
-
     }
 
+    //Check if it is a facecard
     mutating func check(theCard: Card, playerTurn: Bool, isRepeating: Bool) {
         if computer.count < 1{
             whoIsWinner(winner: "Player")
@@ -155,11 +148,9 @@ struct beggarYourNeighbour {
                   playTheGame()
             }
         }
-        
-        
     }
     
-    
+    //Computer showdown. (Computer is offence)
     mutating func repeatComputer (thePlayerCard: Card) {
         var repeatedTimes = 0
         for _ in 0...thePlayerCard.value.rawValue - 11 {
@@ -172,6 +163,7 @@ struct beggarYourNeighbour {
                 
             }
         }
+        //Player won the showdown so he gets the cards from the middle
         if repeatedTimes == thePlayerCard.value.rawValue - 10 {
             player.append(contentsOf: middle)
             middle.removeAll()
@@ -180,6 +172,7 @@ struct beggarYourNeighbour {
         }
     }
     
+    //Player showdown. (Player is offence)
     mutating func repeatPlayer (theComputerCard: Card) {
         var repeatedTimes = 0
         for _ in 0...theComputerCard.value.rawValue - 11 {
@@ -192,6 +185,7 @@ struct beggarYourNeighbour {
             }
             
         }
+        //Computer won the showdown so it gets the cards from the middle
         if repeatedTimes == theComputerCard.value.rawValue - 10 {
             computer.append(contentsOf: middle)
             middle.removeAll()
@@ -200,8 +194,10 @@ struct beggarYourNeighbour {
         }
     }
     
+    //play cards, add cards into the "pot", and check face cards
     mutating func playTheGame() {
         
+        //check if computer and player have card to play the game
         if computer.count < 1{
             whoIsWinner(winner: "Player")
             
@@ -210,7 +206,9 @@ struct beggarYourNeighbour {
             whoIsWinner(winner: "Computer")
             
         }
+            
         else {
+            //check who's turn is it to place the cards into the "pot"
             if isPlayerTurn {
                 addToMiddle(theCard: player[0], playerTurn: isPlayerTurn)
                 check(theCard: middle[0], playerTurn: isPlayerTurn, isRepeating: false)
@@ -221,42 +219,41 @@ struct beggarYourNeighbour {
                 
             }
         }
-        
     }
     
     mutating func start() {
-        while isGameOver == true {
+        //When game started, deal the cards
+        while hasGameEnded == true {
             dealCards()
-            isGameOver = false
+            hasGameEnded = false
         
         }
         
-        while isGameOver == false {
+        //Play the game until someone loses
+        while hasGameEnded == false {
             playTheGame()
-    }
+        }
   }
     
+    //Declare if player gained victory or got defeated
     mutating func whoIsWinner(winner: String) {
-        
-        if winner == "Player" && isGameOver == false
+        if winner == "Player" && hasGameEnded == false
         {
             print("========================================================")
             print("VICTORY")
-            isGameOver = true
+            hasGameEnded = true
             
         }
-        else if winner == "Computer" && isGameOver == false
+        else if winner == "Computer" && hasGameEnded == false
         {
+            
             print("========================================================")
             print("DEFEATED")
-            isGameOver = true
-
+            hasGameEnded = true
         }
     }
-    
-    
-    
 }
 
+//start the game
 var newGame = beggarYourNeighbour()
 newGame.start()
