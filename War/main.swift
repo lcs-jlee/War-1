@@ -108,7 +108,9 @@ struct beggarYourNeighbour {
         }else {
             print("Computer has \(computer.count) cards")
             print("Player has \(player.count) cards")
+            print("Middle has \(middle.count) cards")
             middle.insert(theCard, at: 0)
+            
             if playerTurn{
                 
                     player.remove(at: 0)
@@ -124,6 +126,7 @@ struct beggarYourNeighbour {
                 
                 
             }
+            
         }
         
 
@@ -158,8 +161,8 @@ struct beggarYourNeighbour {
     
     
     mutating func repeatComputer (thePlayerCard: Card) {
-        var repeatedTimes = 1
-        for _ in 0...thePlayerCard.value.rawValue - 10 {
+        var repeatedTimes = 0
+        for _ in 0...thePlayerCard.value.rawValue - 11 {
             if computer.count > 0 {
                 addToMiddle(theCard: computer[0], playerTurn: isPlayerTurn)
                 if middle.count > 0 {
@@ -177,8 +180,8 @@ struct beggarYourNeighbour {
     }
     
     mutating func repeatPlayer (theComputerCard: Card) {
-        var repeatedTimes = 1
-        for _ in 0...theComputerCard.value.rawValue - 10 {
+        var repeatedTimes = 0
+        for _ in 0...theComputerCard.value.rawValue - 11 {
             if player.count > 0 {
                 addToMiddle(theCard: player[0], playerTurn: isPlayerTurn)
                 if middle.count > 0 {
@@ -255,5 +258,3 @@ struct beggarYourNeighbour {
 
 var newGame = beggarYourNeighbour()
 newGame.start()
-
-
